@@ -29,7 +29,11 @@
 # Author: Denis Stogl
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, OpaqueFunction
+from launch.actions import (
+    DeclareLaunchArgument,
+    IncludeLaunchDescription,
+    OpaqueFunction,
+)
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.substitutions import FindPackageShare
@@ -50,7 +54,11 @@ def launch_setup(context, *args, **kwargs):
 
     ur_control_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            [FindPackageShare("ur_simulation_gz"), "/launch", "/ur_sim_control.launch.py"]
+            [
+                FindPackageShare("ur_simulation_gz"),
+                "/launch",
+                "/ur_sim_control.launch.py",
+            ]
         ),
         launch_arguments={
             "ur_type": ur_type,
@@ -66,7 +74,11 @@ def launch_setup(context, *args, **kwargs):
 
     ur_moveit_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            [FindPackageShare("ur_moveit_config"), "/launch", "/ur_moveit.launch.py"]
+            [
+                FindPackageShare("ur_moveit_config"),
+                "/launch",
+                "/ur_moveit.launch.py",
+            ]
         ),
         launch_arguments={
             "ur_type": ur_type,
@@ -96,8 +108,18 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "ur_type",
             description="Type/series of used UR robot.",
-            choices=["ur3", "ur3e", "ur5", "ur5e", "ur10", "ur10e", "ur16e", "ur20", "ur30"],
-            default_value="ur5e",
+            choices=[
+                "ur3",
+                "ur3e",
+                "ur5",
+                "ur5e",
+                "ur10",
+                "ur10e",
+                "ur16e",
+                "ur20",
+                "ur30",
+            ],
+            default_value="ur10e",
         )
     )
     declared_arguments.append(
@@ -126,7 +148,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "description_package",
-            default_value="ur_description",
+            default_value="ur_setups",
             description="Description package with robot URDF/XACRO files. Usually the argument \
         is not set, it enables use of a custom description.",
         )
@@ -134,7 +156,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "description_file",
-            default_value="ur.urdf.xacro",
+            default_value="ur_robotiq2f.urdf.xacro",
             description="URDF/XACRO description file with the robot.",
         )
     )
@@ -149,7 +171,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "moveit_config_file",
-            default_value="ur.srdf.xacro",
+            default_value="ur_robotiq2f.srdf.xacro",
             description="MoveIt SRDF/XACRO description file with the robot.",
         )
     )
@@ -163,4 +185,6 @@ def generate_launch_description():
         )
     )
 
-    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+    return LaunchDescription(
+        declared_arguments + [OpaqueFunction(function=launch_setup)]
+    )

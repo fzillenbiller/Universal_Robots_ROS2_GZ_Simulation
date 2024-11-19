@@ -12,8 +12,10 @@
 
   <license>BSD-3-Clause</license>
 
-  <url type="bugtracker">https://github.com/UniversalRobots/Universal_Robots_ROS2_Ignition_Simulation/issues</url>
-  <url type="repository">https://github.com/UniversalRobots/Universal_Robots_ROS2_Ignition_Simulation</url>
+  <url type="bugtracker">
+    https://github.com/UniversalRobots/Universal_Robots_ROS2_Ignition_Simulation/issues</url>
+  <url type="repository">
+    https://github.com/UniversalRobots/Universal_Robots_ROS2_Ignition_Simulation</url>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
@@ -24,6 +26,7 @@
   <exec_depend>rviz2</exec_depend>
   <exec_depend>ur_description</exec_depend>
   <exec_depend>ur_moveit_config</exec_depend>
+  <exec_depend>ur_setups</exec_depend>
   <exec_depend>urdf</exec_depend>
   <exec_depend>ros_gz_bridge</exec_depend>
   <exec_depend>ros_gz_sim</exec_depend>
