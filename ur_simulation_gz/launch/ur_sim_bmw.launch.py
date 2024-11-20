@@ -46,7 +46,9 @@ from launch.substitutions import (
 )
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from ament_index_python.packages import get_package_share_directory
 from os import environ
+from os.path import exists
 
 
 def launch_setup(context, *args, **kwargs):
@@ -238,6 +240,7 @@ def launch_setup(context, *args, **kwargs):
 
 def generate_launch_description():
     declared_arguments = []
+
     # UR specific arguments
     declared_arguments.append(
         DeclareLaunchArgument(
@@ -351,9 +354,19 @@ def generate_launch_description():
     )
 
     ## export robotiq meshes for ignition
-    # environ("IGN_GAZEBO_RESOURCE_PATH") = PathJoinSubstitution(
-    #     [FindPackageShare(), "rviz", "view_robot.rviz"]
-    # )
+    pkg_src = (
+        get_package_share_directory("robotiq_description").split("install")[0]
+        + "src/ros2_robotiq_gripper"
+    )
+    if not exists(pkg_src):
+        raise RuntimeError(pkg_src, " with robotiq meshes does not exist! (check name)")
+
+    previous_paths = environ.get("IGN_GAZEBO_RESOURCE_PATH")
+    if previous_paths != None:
+        previous_paths += ":" + pkg_src
+
+    else:
+        environ["IGN_GAZEBO_RESOURCE_PATH"] = pkg_src
 
     return LaunchDescription(
         declared_arguments + [OpaqueFunction(function=launch_setup)]
